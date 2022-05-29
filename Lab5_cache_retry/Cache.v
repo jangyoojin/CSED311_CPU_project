@@ -47,6 +47,11 @@ module Cache #(parameter LINE_SIZE = 16,
   reg mem_input_valid;
   reg _mem_read;
   reg _mem_write;
+  //Write data, tag, valid, dirty bit permission
+  reg data_req;
+  reg tag_req;
+  reg valid_req;
+  reg dirty_req;
 
   // You might need registers to keep the status.
   assign is_ready = is_data_mem_ready;
@@ -68,9 +73,27 @@ module Cache #(parameter LINE_SIZE = 16,
     end
   end
 
+    //cache 
+  always @(posedge clk) begin
+    if(data_req) begin
+      data_bank[idx] <= data_write;
+    end
+    if(tag_req)begin
+      tag_bank[idx] <= tag;
+    end
+    if(valid_req)begin
+      valid_bank[idx]<=1;
+    end
+    if(dirty_req)begin
+      dirty_bank[idx]<=1;
+    end
+
+  end
+
+
   always @(*) begin
     read_data = data_bank[idx];
-    write_data = read_data;
+    write_data = read_data;`
     // Write din
     case(block_offset)
       0: write_data[0:31] = din;

@@ -117,7 +117,8 @@ module Cache #(parameter LINE_SIZE = 16,
     endcase
 
     mem_valid_req=0;
-    mem_req_addr={addr[31:4],4'b0000};
+    mem_req_addr = addr;
+    //mem_req_addr={addr[31:4],4'b0000};
     mem_req_read=0;
     mem_req_write=0;
 
